@@ -44,14 +44,13 @@ bukaBrowser = async () =>{
     let index = 1
     while (itemTargetCount >= index) {
         let itemSelector = `#main-content-homepage_hot > div.css-${match[1]}-DivOneColumnContainer.e108hwin0 > div:nth-child(${index})`
-        // childNode = parentNode.childNodes[index]
-        await page.waitForSelector(itemSelector,{timeout:10000})
+        await new Promise((resolve) => setTimeout(resolve, 4000));
         await page.locator(itemSelector).click()
         await page.locator(itemSelector).click()
         await page.locator(itemSelector).scroll({scrollTop:500})
         console.log(index)
         index++
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 3000));
     }
 }
 
