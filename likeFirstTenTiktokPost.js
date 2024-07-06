@@ -48,10 +48,10 @@ bukaBrowser = async () =>{
 
         await new Promise((resolve) => setTimeout(resolve, 7000));
         // await page.waitForSelector(eachVideoSelector,{timeout:60000})
-        // await page.waitForSelector(eachLikeButtonSelector,{timeout:10000})
 
-        await page.locator(eachVideoSelector).setWaitForEnabled(true).hover()
-        await page.locator(eachLikeButtonSelector).setWaitForEnabled(true).click()
+        await page.locator(eachVideoSelector).hover()
+        await page.waitForSelector(eachLikeButtonSelector,{timeout:60000})
+        await page.locator(eachLikeButtonSelector).click()
         await page.locator(eachVideoSelector).scroll({scrollTop:500})
         console.log(index)
         index++
