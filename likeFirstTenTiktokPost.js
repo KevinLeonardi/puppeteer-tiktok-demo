@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer")
 
 bukaBrowser = async () =>{
-    const browser = await puppeteer.launch({headless:false})
+    const browser = await puppeteer.launch({headless:false, devtools:true})
     const page = await browser.newPage()
 
     await page.goto("https://www.tiktok.com/") //go to tiktok.com
@@ -40,23 +40,26 @@ bukaBrowser = async () =>{
     // Use RegExp.exec() to extract the matched part
     const match = regex.exec(childClassName);
 
-    const itemTargetCount = 20
+    const itemTargetCount = 10
     let index = 1
     while (itemTargetCount >= index) {
         let eachVideoSelector = `#main-content-homepage_hot > div.css-${match[1]}-DivOneColumnContainer.e108hwin0 > div:nth-child(${index})`
         let eachLikeButtonSelector = `#main-content-homepage_hot > div.css-${match[1]}-DivOneColumnContainer.e108hwin0 > div:nth-child(${index}) > div > div > div.css-1gi58p0-DivActionItemContainer.ees02z00 > button:nth-child(2)`
 
-        await new Promise((resolve) => setTimeout(resolve, 7000));
-        // await page.waitForSelector(eachVideoSelector,{timeout:60000})
+        await new Promise((resolve) => setTimeout(resolve, 7000));//we can increase the time out to be more than 7 seconds if 7 seconds is not enough to load the selector (because network speed is not fast enough)
 
         await page.locator(eachVideoSelector).hover()
-        await page.waitForSelector(eachLikeButtonSelector,{timeout:60000})
+        try{
+            await page.waitForSelector(eachLikeButtonSelector,{timeout:30000})//we can decrease the timeout to be less than 30 s
+        } catch{
+            eachLikeButtonSelector = `#main-content-homepage_hot > div.css-${match[1]}-DivOneColumnContainer.e108hwin0 > div:nth-child(${index}) > div > div > div.css-rrpqoe-DivActionItemContainer.ees02z00 > button:nth-child(2)`
+            await page.waitForSelector(eachLikeButtonSelector,{timeout:30000})//we can decrease the timeout to be less than 30 s
+        }
         await page.locator(eachLikeButtonSelector).click()
         await page.locator(eachVideoSelector).scroll({scrollTop:500})
         console.log(index)
         index++
         await new Promise((resolve) => setTimeout(resolve, 4000));
-        // await eachTiktok.dispose() 
     }
 }
 
