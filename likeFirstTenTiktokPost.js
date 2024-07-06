@@ -43,14 +43,20 @@ bukaBrowser = async () =>{
     const itemTargetCount = 20
     let index = 1
     while (itemTargetCount >= index) {
-        let itemSelector = `#main-content-homepage_hot > div.css-${match[1]}-DivOneColumnContainer.e108hwin0 > div:nth-child(${index})`
-        await new Promise((resolve) => setTimeout(resolve, 4000));
-        await page.locator(itemSelector).click()
-        await page.locator(itemSelector).click()
-        await page.locator(itemSelector).scroll({scrollTop:500})
+        let eachVideoSelector = `#main-content-homepage_hot > div.css-${match[1]}-DivOneColumnContainer.e108hwin0 > div:nth-child(${index})`
+        let eachLikeButtonSelector = `#main-content-homepage_hot > div.css-${match[1]}-DivOneColumnContainer.e108hwin0 > div:nth-child(${index}) > div > div > div.css-1gi58p0-DivActionItemContainer.ees02z00 > button:nth-child(2)`
+
+        await new Promise((resolve) => setTimeout(resolve, 7000));
+        // await page.waitForSelector(eachVideoSelector,{timeout:60000})
+        // await page.waitForSelector(eachLikeButtonSelector,{timeout:10000})
+
+        await page.locator(eachVideoSelector).setWaitForEnabled(true).hover()
+        await page.locator(eachLikeButtonSelector).setWaitForEnabled(true).click()
+        await page.locator(eachVideoSelector).scroll({scrollTop:500})
         console.log(index)
         index++
-        await new Promise((resolve) => setTimeout(resolve, 3000));
+        await new Promise((resolve) => setTimeout(resolve, 4000));
+        // await eachTiktok.dispose() 
     }
 }
 
